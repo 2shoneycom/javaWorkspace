@@ -1,6 +1,7 @@
 package com.spring_boot_jpa_product.project.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Optional;
 
 import com.spring_boot_jpa_product.project.entity.ProductEntity;
@@ -17,4 +18,6 @@ public interface IProductDAO {
 	Optional<ProductEntity> detailViewProduct(String prdNo);// 상세 상품 조회
 
 	String prdNoCheck(String prdNo); // 상품번호 중복 확인
+	
+	public ArrayList<ProductEntity> productSearch(HashMap<String, String> param);
 }

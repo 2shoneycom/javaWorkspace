@@ -1,5 +1,7 @@
 package com.spring_boot_jpa_product.project.repository;
 
+import java.util.ArrayList;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,4 +17,11 @@ public interface ProductRepository extends JpaRepository<ProductEntity, String> 
 	// low 쿼리 사용하더라도 entity를 테이블처럼 사용해야 함
 	@Query(value="SELECT p.prdNo From ProductEntity p WHERE p.prdNo=:prdNo")
 	String searchById(@Param("prdNo") String prdNo);
+	
+	// WHER 조건절 적용 타입이 2개 이상일 경우: WHERE ~ OR을 활용
+	@Query(value="SELECT p FROM ProductEntity p "
+			+ "WHERE (:type='prdName' AND p.prdName LIKE CONCAT('%',:keyword,'%'))"
+			+ "OR (:type='prdCompany' AND p.prdCompany LIKE CONCAT('%',:keyword,'%'))")
+	ArrayList<ProductEntity> productSearch(@Param("type") String type,
+										   @Param("keyword") String keyword);
 }
